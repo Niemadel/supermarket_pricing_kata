@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
-import pricingkata.fr.Checkout;
-import pricingkata.fr.Item;
+import pricingkata.fr.LineItem;
 import pricingkata.fr.Price;
 
 import java.math.BigDecimal;
@@ -11,45 +10,42 @@ public class CheckoutTest {
 
     @Test
     void checkout_when_item_price_is_zero_return_zero() {
-        Item item = new Item(Price.of(new BigDecimal(0.00)), 1);
-        Checkout checkout = new Checkout();
+        LineItem lineItem = new LineItem(Price.of(new BigDecimal(0.00)), 1);
 
-        Price total = checkout.total(item);
+        Price totalPrice = lineItem.total();
         Price expectedTotal = Price.of(new BigDecimal(0));
 
-        assertThat(total).isEqualTo(expectedTotal);
+        assertThat(totalPrice).isEqualTo(expectedTotal);
     }
 
     @Test
     void checkout_when_item_price_is_2_and_quantity_is_3_return_6() {
-        Item item = new Item(Price.of(new BigDecimal(2.00)), 3);
-        Checkout checkout = new Checkout();
+        LineItem lineItem = new LineItem(Price.of(new BigDecimal(2.00)), 3);
 
-        Price total = checkout.total(item);
+        Price totalPrice = lineItem.total();
         Price expectedTotal = Price.of(new BigDecimal(6));
 
-        assertThat(total).isEqualTo(expectedTotal);
+        assertThat(totalPrice).isEqualTo(expectedTotal);
     }
 
     @Test
     void checkout_when_item_price_is_1and2_and_qauntity_1_return_1and2() {
-        Item item = new Item(Price.of(new BigDecimal(1.20)), 1);
-        Checkout checkout = new Checkout();
+        LineItem lineItem = new LineItem(Price.of(new BigDecimal(1.20)), 1);
 
-        Price total = checkout.total(item);
+        Price totalPrice = lineItem.total();
         Price expectedTotal = Price.of(new BigDecimal(1.20));
 
-        assertThat(total).isEqualTo(expectedTotal);
+        assertThat(totalPrice).isEqualTo(expectedTotal);
     }
 
     @Test
-    void checkout_for_two_items_with_different_price_return_total_of_the_two_items_price() {
-        Items items = new Items(item);
-        Checkout checkout = new Checkout();
+    void lineItem_of_3_item_with_price_0_65_and_offer_is_3_for_1_return_total_price_0_65() {
+        LineItem lineItem = new LineItem(Price.of(new BigDecimal(0.65)), 3);
 
-        Price total = checkout.total(items);
-        Price expectedTotal = Price.of(new BigDecimal(1.68));
 
-        assertThat(total).isEqualTo(expectedTotal);
+        Price totalPrice = lineItem.total();
+        Price expectedTotal = Price.of(new BigDecimal(0.65));
+
+        assertThat(totalPrice).isEqualTo(expectedTotal);
     }
 }
