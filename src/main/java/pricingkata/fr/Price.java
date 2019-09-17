@@ -1,23 +1,21 @@
 package pricingkata.fr;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Objects;
 
 public class Price {
 
-    private BigDecimal amount;
+    private final double amount;
 
-    private Price(BigDecimal amount) {
+    private Price(double amount) {
 
-        this.amount = amount.setScale(2, RoundingMode.CEILING);
+        this.amount = amount;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public static Price of(BigDecimal amount) {
+    public static Price of(double amount) {
         return new Price(amount);
     }
 
@@ -32,5 +30,12 @@ public class Price {
     @Override
     public int hashCode() {
         return Objects.hash(amount);
+    }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "amount=" + amount +
+                '}';
     }
 }

@@ -1,26 +1,25 @@
 package pricingkata.fr;
 
-import java.math.BigDecimal;
-
 public class LineItem {
 
-    private Price unitPrice;
+    private Item item;
     private int quantity;
 
-    public LineItem(Price unitPrice, int quantity) {
-        this.unitPrice = unitPrice;
+    public LineItem(Item item, int quantity) {
+        this.item = item;
         this.quantity = quantity;
     }
 
-    public Price total() {
+    public Price lineItemTotalPrice() {
 
-        BigDecimal itemPrice = unitPrice.getAmount();
-        int itemQuantity = quantity;
-
-        return Price.of(itemPrice.multiply(new BigDecimal(itemQuantity)));
+        return Price.of(item.getPrice().getAmount() * quantity);
     }
 
-    public boolean containsOfferThreeForOne(LineItem lineItem) {
-        return lineItem.quantity >= 3;
+    public Price add(LineItem lineItem) {
+
+        return Price.of((lineItem.item.getPrice().getAmount() * lineItem.quantity) +
+                (this.item.getPrice().getAmount() * this.quantity));
     }
+
+
 }

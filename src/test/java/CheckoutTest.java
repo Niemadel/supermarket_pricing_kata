@@ -1,8 +1,11 @@
 import org.junit.jupiter.api.Test;
+import pricingkata.fr.Checkout;
+import pricingkata.fr.Item;
 import pricingkata.fr.LineItem;
 import pricingkata.fr.Price;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,42 +13,54 @@ public class CheckoutTest {
 
     @Test
     void checkout_when_item_price_is_zero_return_zero() {
-        LineItem lineItem = new LineItem(Price.of(new BigDecimal(0.00)), 1);
+        Item itemA = new Item("A", Price.of(0));
+        LineItem lineItem = new LineItem(itemA, 1);
 
-        Price totalPrice = lineItem.total();
-        Price expectedTotal = Price.of(new BigDecimal(0));
+        Price totalPrice = lineItem.lineItemTotalPrice();
+        Price expectedTotal = Price.of(0);
 
         assertThat(totalPrice).isEqualTo(expectedTotal);
     }
 
     @Test
     void checkout_when_item_price_is_2_and_quantity_is_3_return_6() {
-        LineItem lineItem = new LineItem(Price.of(new BigDecimal(2.00)), 3);
+        Item itemA = new Item("A", Price.of(2));
+        LineItem lineItem = new LineItem(itemA, 3);
 
-        Price totalPrice = lineItem.total();
-        Price expectedTotal = Price.of(new BigDecimal(6));
-
-        assertThat(totalPrice).isEqualTo(expectedTotal);
-    }
-
-    @Test
-    void checkout_when_item_price_is_1and2_and_qauntity_1_return_1and2() {
-        LineItem lineItem = new LineItem(Price.of(new BigDecimal(1.20)), 1);
-
-        Price totalPrice = lineItem.total();
-        Price expectedTotal = Price.of(new BigDecimal(1.20));
+        Price totalPrice = lineItem.lineItemTotalPrice();
+        Price expectedTotal = Price.of(6);
 
         assertThat(totalPrice).isEqualTo(expectedTotal);
     }
 
     @Test
-    void lineItem_of_3_item_with_price_0_65_and_offer_is_3_for_1_return_total_price_0_65() {
-        LineItem lineItem = new LineItem(Price.of(new BigDecimal(0.65)), 3);
+    void checkout_when_item_price_is_1_2_and_quantity_1_return_1_2() {
+        Item itemA = new Item("A", Price.of(1.20));
+        LineItem lineItem = new LineItem(itemA, 1);
 
-
-        Price totalPrice = lineItem.total();
-        Price expectedTotal = Price.of(new BigDecimal(0.65));
+        Price totalPrice = lineItem.lineItemTotalPrice();
+        Price expectedTotal = Price.of(1.20);
 
         assertThat(totalPrice).isEqualTo(expectedTotal);
+    }
+
+    @Test
+    void checkout_with_3_items_with_price_0_65_and_2_items_with_price_1_20_should_return_total_of_4_35() {
+        Item itemA = new Item("A", Price.of(0.65));
+        Item itemB = new Item("B", Price.of(1.20));
+
+        LineItem lineItemA = new LineItem(itemA, 3);
+        LineItem lineItemB = new LineItem(itemB, 2);
+
+        List<LineItem> lineItems = new ArrayList<>();
+        lineItems.add(lineItemA);
+        lineItems.add(lineItemB);
+
+        Price expectedTotal = Price.of(4.35);
+
+        Checkout checkout = new Checkout();
+
+        Price checkoutTotalPrice = checkout.totalPrice(lineItems);
+        assertThat(checkoutTotalPrice).isEqualTo(expectedTotal);
     }
 }
