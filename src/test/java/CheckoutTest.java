@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Test;
-import pricingkata.fr.Checkout;
 import pricingkata.fr.Item;
 import pricingkata.fr.LineItem;
 import pricingkata.fr.Price;
@@ -8,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static pricingkata.fr.Price.checkoutTotalPrice;
+import static pricingkata.fr.Price.lineItemTotalPrice;
 
 public class CheckoutTest {
 
@@ -16,7 +17,7 @@ public class CheckoutTest {
         Item itemA = new Item("A", Price.of(0));
         LineItem lineItem = new LineItem(itemA, 1);
 
-        Price totalPrice = lineItem.lineItemTotalPrice();
+        Price totalPrice = lineItemTotalPrice(lineItem);
         Price expectedTotal = Price.of(0);
 
         assertThat(totalPrice).isEqualTo(expectedTotal);
@@ -27,7 +28,7 @@ public class CheckoutTest {
         Item itemA = new Item("A", Price.of(2));
         LineItem lineItem = new LineItem(itemA, 3);
 
-        Price totalPrice = lineItem.lineItemTotalPrice();
+        Price totalPrice = lineItemTotalPrice(lineItem);
         Price expectedTotal = Price.of(6);
 
         assertThat(totalPrice).isEqualTo(expectedTotal);
@@ -38,7 +39,7 @@ public class CheckoutTest {
         Item itemA = new Item("A", Price.of(1.20));
         LineItem lineItem = new LineItem(itemA, 1);
 
-        Price totalPrice = lineItem.lineItemTotalPrice();
+        Price totalPrice = lineItemTotalPrice(lineItem);
         Price expectedTotal = Price.of(1.20);
 
         assertThat(totalPrice).isEqualTo(expectedTotal);
@@ -58,9 +59,7 @@ public class CheckoutTest {
 
         Price expectedTotal = Price.of(4.35);
 
-        Checkout checkout = new Checkout();
-
-        Price checkoutTotalPrice = checkout.totalPrice(lineItems);
-        assertThat(checkoutTotalPrice).isEqualTo(expectedTotal);
+        Price TotalPrice = checkoutTotalPrice(lineItems);
+        assertThat(TotalPrice).isEqualTo(expectedTotal);
     }
 }

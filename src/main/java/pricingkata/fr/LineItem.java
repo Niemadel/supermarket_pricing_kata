@@ -10,15 +10,12 @@ public class LineItem {
         this.quantity = quantity;
     }
 
-    public Price lineItemTotalPrice() {
-
-        return Price.of(item.getPrice().getAmount() * quantity);
+    public Item getItem() {
+        return item;
     }
 
-    public Price add(LineItem lineItem) {
-
-        return Price.of((lineItem.item.getPrice().getAmount() * lineItem.quantity) +
-                (this.item.getPrice().getAmount() * this.quantity));
+    public int getQuantity() {
+        return quantity;
     }
 
 
