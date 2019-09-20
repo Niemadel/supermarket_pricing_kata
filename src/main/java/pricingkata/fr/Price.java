@@ -1,6 +1,5 @@
 package pricingkata.fr;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Price {
@@ -20,24 +19,9 @@ public class Price {
         return new Price(amount);
     }
 
-    public static double lineItemAmount(LineItem lineItem) {
-        return lineItem.getItem().getPrice().getAmount() * lineItem.getQuantity();
+    public static Price of(double amount, int quantity) {
+        return new Price(amount * quantity);
     }
-
-    public static Price lineItemTotalPrice(LineItem lineItem) {
-        return Price.of(lineItemAmount(lineItem));
-    }
-
-    public static Price checkoutTotalPrice(List<LineItem> lineItems) {
-        double total = 0;
-        for (LineItem lineItem : lineItems) {
-
-            total += lineItemAmount(lineItem);
-
-        }
-        return Price.of(total);
-    }
-
 
     @Override
     public boolean equals(Object o) {

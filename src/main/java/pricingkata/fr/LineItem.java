@@ -10,13 +10,8 @@ public class LineItem {
         this.quantity = quantity;
     }
 
-    public Item getItem() {
-        return item;
+    public double totalPrice() {
+        return item.getPrice().getAmount() * quantity;
     }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
 
 }
